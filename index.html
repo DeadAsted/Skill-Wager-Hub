@@ -95,32 +95,36 @@
         </div>
     </div>
 
-    <script>
-        // Инициализация Telegram WebApp
-        const tg = window.Telegram.WebApp;
-        
-        // Сообщаем Telegram, что приложение готово
+<script>
+    // Проверяем, загрузился ли скрипт Telegram
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+
+    if (tg) {
         tg.ready();
         tg.expand();
+        console.log("WebApp инициализирован");
+    } else {
+        console.error("Ошибка: Скрипт Telegram не загружен!");
+        alert("Ошибка: Откройте приложение через Telegram бота");
+    }
 
-        function acceptDuel(id, bet) {
-            const data = {
-                action: "accept_duel",
-                duel_id: id,
-                amount: bet
-            };
+    function acceptDuel(id, bet) {
+        if (!tg) return;
 
-            // Отправляем данные боту (работает только при открытии через кнопку бота!)
+        const data = {
+            action: "accept_duel",
+            duel_id: id,
+            amount: bet
+        };
+
+        try {
+            // Отправляем данные и закрываем
             tg.sendData(JSON.stringify(data));
-            
-            // На всякий случай закрываем окно принудительно через 100мс
-            setTimeout(() => {
-                tg.close();
-            }, 100);
+            tg.close();
+        } catch (e) {
+            alert("Ошибка отправки: " + e.message);
         }
-
-        // Автоматически подстраиваем тему под Telegram
-        document.body.style.backgroundColor = tg.backgroundColor || '#1a1a1a';
-    </script>
+    }
+</script>
 </body>
 </html>
