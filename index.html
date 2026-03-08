@@ -103,14 +103,18 @@
 tg.expand();
 
 function acceptDuel(id, bet) {
-    // Важно: данные должны быть СТРОКОЙ
-    const data = JSON.stringify({
-        action: "accept_duel",
-        duel_id: id,
-        amount: bet
-    });
-    
-    tg.sendData(data); // Эта функция отправляет данные боту и ЗАКРЫВАЕТ WebApp
+    try {
+        const data = JSON.stringify({
+            action: "accept_duel",
+            duel_id: id,
+            amount: bet
+        });
+        
+        // Эта строка ОБЯЗАТЕЛЬНО должна закрыть WebApp и отправить данные боту
+        window.Telegram.WebApp.sendData(data); 
+    } catch (e) {
+        alert("Ошибка: " + e.message);
+    }
 }
     </script>
 </body>
