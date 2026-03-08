@@ -99,32 +99,19 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
-        tg.MainButton.setParams({ text: 'СОЗДАТЬ ДУЭЛЬ', is_visible: true, color: '#2ecc71' });
+       const tg = window.Telegram.WebApp;
+tg.expand();
 
-        // Обработка кнопки создания (внизу экрана)
-        tg.MainButton.onClick(() => {
-            tg.showAlert("Функция создания дуэлей будет доступна в следующем обновлении!");
-        });
-
-        function acceptDuel(id, bet) {
-            // Подтверждение перед списанием
-            tg.showConfirm(`Вы уверены, что хотите принять вызов на ${bet} ₽?`, (ok) => {
-                if (ok) {
-                    const data = {
-                        action: "accept_duel",
-                        duel_id: id,
-                        amount: bet
-                    };
-                    tg.sendData(JSON.stringify(data));
-                    tg.close();
-                }
-            });
-        }
-
-        // Установка цвета хедера WebApp в цвет темы
-        tg.setHeaderColor('secondary_bg_color');
+function acceptDuel(id, bet) {
+    // Важно: данные должны быть СТРОКОЙ
+    const data = JSON.stringify({
+        action: "accept_duel",
+        duel_id: id,
+        amount: bet
+    });
+    
+    tg.sendData(data); // Эта функция отправляет данные боту и ЗАКРЫВАЕТ WebApp
+}
     </script>
 </body>
 </html>
