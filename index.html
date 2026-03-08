@@ -1,0 +1,33 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://telegram.org"></script>
+    <style>
+        body { color: white; background: #1a1a1a; font-family: sans-serif; }
+        .duel-card { border: 1px solid #333; padding: 10px; margin: 10px; border-radius: 8px; }
+        button { background: #0088cc; color: white; border: none; padding: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2>Доступные дуэли</h2>
+        <div class="duel-card">
+            <p>Игра: CS2 (1x1 Aim)</p>
+            <p>Ставка: 100 ₽</p>
+            <button onclick="acceptDuel(1)">Принять вызов</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function acceptDuel(id) {
+            // Отправляем данные боту, что дуэль принята
+            tg.sendData(JSON.stringify({action: "accept_duel", duel_id: id}));
+            tg.close();
+        }
+    </script>
+</body>
+</html>
