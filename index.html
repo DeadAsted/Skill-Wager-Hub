@@ -96,16 +96,13 @@
 
 <script>
     // Проверяем, загрузился ли скрипт Telegram
-    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    const tg = window.Telegram.WebApp;
 
-    if (tg) {
-        tg.ready();
-        tg.expand();
-        console.log("WebApp инициализирован");
-    } else {
-        console.error("Ошибка: Скрипт Telegram не загружен!");
-        alert("Ошибка: Откройте приложение через Telegram бота");
-    }
+if (!tg.initDataUnsafe || Object.keys(tg.initDataUnsafe).length === 0) {
+    alert("Ошибка: Откройте приложение через Telegram бота");
+} else {
+    tg.expand(); // Развернуть на весь экран
+}
 
     function acceptDuel(id, bet) {
         if (!tg) return;
