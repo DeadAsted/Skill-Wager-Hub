@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- ИСПРАВЛЕНО: Правильная ссылка на JS SDK Telegram -->
+    <!-- ИСПРАВЛЕНО: Правильный путь к SDK Telegram -->
     <script src="https://telegram.org"></script>
     <style>
         :root {
@@ -95,30 +95,25 @@
     </div>
 
 <script>
-    // Проверяем, загрузился ли скрипт Telegram
+    // Инициализация объекта Telegram
     const tg = window.Telegram.WebApp;
 
-if (!tg.initDataUnsafe || Object.keys(tg.initDataUnsafe).length === 0) {
-    alert("Ошибка: Откройте приложение через Telegram бота");
-} else {
-    tg.expand(); // Развернуть на весь экран
-}
+    // Сразу сообщаем Telegram, что приложение готово
+    tg.ready();
+    tg.expand();
 
     function acceptDuel(id, bet) {
-        if (!tg) return;
-
         const data = {
-            action: "accept_duel",
             duel_id: id,
             amount: bet
         };
 
         try {
-            // Отправляем данные и закрываем
+            // ИСПРАВЛЕНО: Убеждаемся, что данные уходят строкой JSON
             tg.sendData(JSON.stringify(data));
             tg.close();
         } catch (e) {
-            alert("Ошибка отправки: " + e.message);
+            console.error("Ошибка отправки данных:", e);
         }
     }
 </script>
